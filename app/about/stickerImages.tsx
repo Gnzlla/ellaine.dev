@@ -1,3 +1,4 @@
+"use client";
 import StickerPeel from "@/components/StickerPeel";
 
 <StickerPeel

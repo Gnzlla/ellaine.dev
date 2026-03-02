@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import StackImages from "./stackImages";
 import StickerPeel from "@/components/StickerPeel";

@@ -55,7 +55,7 @@ export default function AboutPage() {
                   <img src="./resume.svg" />
                   Resume
                 </a>
-                <a href="#">
+                <a href="https://github.com/Gnzlla">
                   <img src="./yellow-github.svg" />
                   Github
                 </a>

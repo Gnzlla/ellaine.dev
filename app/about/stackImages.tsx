@@ -1,7 +1,7 @@
 import React from "react";
 import Stack from "@/components/Stack";
 
-const images = ["./me1.png", "./me2.png", "./me3.jpg", "./me4.png"];
+const images = ["./me1.png", "./me2.png", "./me3.jpg"];
 
 export default function StackImages() {
   return (

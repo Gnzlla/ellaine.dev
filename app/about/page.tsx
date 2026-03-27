@@ -5,10 +5,10 @@ import StickerPeel from "@/components/StickerPeel";
 
 import { alata } from "../fonts";
 
-export default function AboutPage() {
+export default function AboutPage({ id }: { id?: string }) {
   return (
     <>
-      <section className="mt-45 w-full h-screen">
+      <section className="mt-45 w-full h-screen" id={id}>
         <div className="gap-15 grid grid-cols-[40%_1fr] mx-15 p-2 h-full">
           <StickerPeel
             imageSrc="./wow.gif"

@@ -1,21 +1,20 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { alata } from "../fonts";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
 import SplitText from "gsap/SplitText";
 import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import { useGSAP } from "@gsap/react";
-import Link from "next/link";
 
 gsap.registerPlugin(SplitText, CustomEase, ScrambleTextPlugin);
 
 export default function TableOfContents() {
+  const closeMenuRef = useRef<() => void>(() => {});
+
   useGSAP(() => {
-    // Register custom ease for menu animation
     CustomEase.create("hop", "0.87,0,0.13,1");
 
-    // Store original text BEFORE splitting
     const scrambleElements = document.querySelectorAll(".scrambleText");
     const originalTexts = new Map<HTMLElement, string>();
 
@@ -23,7 +22,6 @@ export default function TableOfContents() {
       originalTexts.set(element as HTMLElement, element.textContent || "");
     });
 
-    // Split text animation setup
     const textContainers = document.querySelectorAll(".menu-col");
     let splitTextByContainer: any[] = [];
 
@@ -44,7 +42,6 @@ export default function TableOfContents() {
       splitTextByContainer.push(containerSplits);
     });
 
-    // Menu elements
     const menuToggleBtn = document.querySelector(".menu-toggle-btn");
     const menuExitBtn = document.querySelector(".menu-exit-btn");
     const menuOverlay = document.querySelector(".menu-overlay");
@@ -66,12 +63,13 @@ export default function TableOfContents() {
     let isMenuOpen = false;
     let isAnimating = false;
 
-    // Function to close menu
+    // Define closeMenu and assign to ref
     const closeMenu = () => {
       if (!isMenuOpen || isAnimating) return;
 
       isAnimating = true;
       hamburgerIcon.classList.remove("active");
+
       const tl = gsap.timeline();
 
       tl.to(menuOverlay, {
@@ -93,10 +91,12 @@ export default function TableOfContents() {
         });
 
         isAnimating = false;
+        isMenuOpen = false;
       });
-
-      isMenuOpen = false;
     };
+
+    // Assign to ref so JSX can access it
+    closeMenuRef.current = closeMenu;
 
     menuToggleBtn.addEventListener("click", () => {
       if (isAnimating) return;
@@ -144,11 +144,13 @@ export default function TableOfContents() {
       }
     });
 
-    // Exit button click handler
     menuExitBtn.addEventListener("click", closeMenu);
 
-    // Scramble text hover effect (for overlay menu items)
-    // Set up AFTER SplitText to use original stored text
+    menuOverlay.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Scramble text hover effect
     scrambleElements.forEach((heading) => {
       const originalText = originalTexts.get(heading as HTMLElement) || "";
       const tl = gsap.timeline({ paused: true });
@@ -178,6 +180,15 @@ export default function TableOfContents() {
     }
   };
 
+  const handleNavClick = (sectionId: string) => {
+    closeMenuRef.current();
+    setTimeout(() => {
+      document
+        .getElementById(sectionId)
+        ?.scrollIntoView({ behavior: "smooth" });
+    }, 1000);
+  };
+
   return (
     <>
       {/* Menu Overlay */}
@@ -202,9 +213,13 @@ export default function TableOfContents() {
                   <h3 className="mb-2 text-neutral-400 text-sm">
                     KNOW MORE ABOUT ME!
                   </h3>
-                  <Link
-                    href="/landing"
+                  <a
+                    href="#about"
                     className="block overflow-hidden cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick("about");
+                    }}
                   >
                     <h1
                       onMouseEnter={onEnter}
@@ -213,15 +228,19 @@ export default function TableOfContents() {
                     >
                       About Me
                     </h1>
-                  </Link>
+                  </a>
                   <hr className="mt-4 border border-neutral-400" />
                 </div>
 
                 <div className="menu-col">
                   <h3 className="mb-2 text-neutral-400 text-sm">WHAT I DID</h3>
-                  <Link
-                    href="/projects"
+                  <a
+                    href="#projects"
                     className="block overflow-hidden cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick("projects");
+                    }}
                   >
                     <h1
                       onMouseEnter={onEnter}
@@ -230,7 +249,7 @@ export default function TableOfContents() {
                     >
                       Projects
                     </h1>
-                  </Link>
+                  </a>
                   <hr className="mt-4 border border-neutral-400" />
                 </div>
 
@@ -238,9 +257,13 @@ export default function TableOfContents() {
                   <h3 className="mb-2 text-neutral-400 text-sm">
                     WHAT CAN I DO?
                   </h3>
-                  <Link
-                    href="/techstack"
+                  <a
+                    href="#techstack"
                     className="block overflow-hidden cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick("techstack");
+                    }}
                   >
                     <h1
                       onMouseEnter={onEnter}
@@ -249,7 +272,7 @@ export default function TableOfContents() {
                     >
                       Tech Stack
                     </h1>
-                  </Link>
+                  </a>
                   <hr className="mt-4 border border-neutral-400" />
                 </div>
 
@@ -257,9 +280,13 @@ export default function TableOfContents() {
                   <h3 className="mb-2 text-neutral-400 text-sm">
                     LET'S COLLABORATE!
                   </h3>
-                  <Link
-                    href="/contact"
+                  <a
+                    href="#footer"
                     className="block overflow-hidden cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick("footer");
+                    }}
                   >
                     <h1
                       onMouseEnter={onEnter}
@@ -268,7 +295,7 @@ export default function TableOfContents() {
                     >
                       Contact
                     </h1>
-                  </Link>
+                  </a>
                   <hr className="mt-4 border border-neutral-400" />
                 </div>
               </div>
@@ -277,7 +304,6 @@ export default function TableOfContents() {
         </div>
       </div>
 
-      {/* Styles for GSAP animations */}
       <style jsx global>{`
         .line {
           position: relative;

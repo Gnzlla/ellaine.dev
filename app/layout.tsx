@@ -1,6 +1,11 @@
 import { alata, teachers } from "./fonts";
 import "./globals.css";
 
+export const metadata = {
+  title: "LAINE",
+  description: "Portfolio",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

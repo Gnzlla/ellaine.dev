@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import gsap from "gsap";
-
+import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 
 //Page Components
@@ -30,8 +30,14 @@ export default function App() {
       <Headroom>
         <div className="bg-[var(--white-background)]/10 backdrop-blur-xs rounded-b-2xl w-full">
           <nav className="flex justify-between items-center px-6 h-15">
-            <div className="flex items-center">
-              <img src="./notion.png" className="rounded-full w-13" />
+            <div className="group relative flex items-center cursor-pointer">
+              <Image
+                src="/notion.png"
+                alt=""
+                width={50}
+                height={15}
+                className="group-hover:filter-[drop-shadow(0_0_2px_#000)] object-contain group-hover:scale-105 transition-all duration-300 ease-in-out"
+              />
               <h1 className="pt-1 font-teachers font-medium text-lg">Laine</h1>
             </div>
 
@@ -48,10 +54,10 @@ export default function App() {
 
       <LandingPage />
       <TableOfContents />
-      <AboutPage />
-      <ProjectsPage />
+      <AboutPage id="about" />
+      <ProjectsPage id="projects" />
 
-      <Footerpage />
+      <Footerpage id="footer" />
     </section>
   );
 }

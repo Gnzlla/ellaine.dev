@@ -28,17 +28,11 @@
   font-style: normal;
 }
 
+
 footer {
-  padding: 56px 50px 16px;
+  padding: 56px 50px 5px;
 }
 
-input {
-  width: 200;
-  background-color: transparent;
-  border-bottom: 2px #F2EFEA solid;
-  height: 2rem;
-}
-
-input[type=message] {
-  height: 50px;
+html {
+  scroll-behavior: smooth;
 }

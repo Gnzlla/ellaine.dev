@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { alata } from "../fonts";
 import { Paperclip, ArrowUpRight } from "lucide-react";
 import { projects } from "./projectData";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,32 +35,6 @@ export default function ProjectsPage({ id }: { id?: string }) {
     hTl.to(trackRef.current, {
       x: -totalScroll,
       ease: "none",
-    });
-
-    hTl.to(
-      ".project-title-wrap",
-      {
-        x: -(window.innerWidth / 2 - 160),
-        y: -(window.innerHeight / 2 - 80),
-        scale: 0.13,
-        ease: "none",
-      },
-      "<",
-    );
-
-    // ── Letters: staggered drop-in on load ────────────────────────────
-    gsap.from(".title-letter", {
-      y: 140,
-      autoAlpha: 0,
-      rotateZ: () => gsap.utils.random(-12, 12),
-      stagger: 0.06,
-      duration: 0.9,
-      ease: "power4.out",
-      scrollTrigger: {
-        trigger: wrapperRef.current,
-        start: "top 70%",
-        toggleActions: "play none none reverse",
-      },
     });
 
     gsap.from(".heading-text", {
@@ -160,7 +135,7 @@ export default function ProjectsPage({ id }: { id?: string }) {
       >
         <div
           className="relative flex flex-col justify-end shrink-0"
-          style={{ width: "42vw", height: "80vh" }}
+          style={{ width: "42vw", height: "60vh" }}
         >
           <div className="top-10 left-0 absolute heading-text">
             <div className="relative flex items-center gap-2 text-neutral-500 text-sm uppercase tracking-widest">
@@ -177,18 +152,13 @@ export default function ProjectsPage({ id }: { id?: string }) {
 
           {/* Giant "projects" title — split letters */}
           <div
-            className={`project-title-wrap ${alata.className} select-none pointer-events-none`}
-            style={{
-              transformOrigin: "bottom left",
-              display: "flex",
-              alignItems: "flex-end",
-              gap: "0.01em",
-              lineHeight: 0.88,
-              whiteSpace: "nowrap",
-              overflow: "visible",
-            }}
+            className={`project-title-wrap ${alata.className} leading-45 text-[200px] select-none pointer-events-none`}
           >
-            projects
+            <span className="flex items-end gap-15">
+              PROJ <Image src="/star.gif" alt="" width={160} height={100} />
+              <br />
+            </span>
+            <span className="p-50 text-[var(--yellow-font)]">ECTS</span>
           </div>
         </div>
 
@@ -392,7 +362,6 @@ function ProjectCard({
         </div>
       </div>
 
-      {/* Hover overlay */}
       <div
         style={{
           position: "absolute",

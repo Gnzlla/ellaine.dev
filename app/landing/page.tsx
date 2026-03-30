@@ -55,7 +55,7 @@ export default function LandingPage() {
 
   return (
     <div
-      className={`flex relative overflow-hidden justify-center w-full h-screen leading-75 items-center ${alata.className} text-[650px] bg-[var(--white-background)] text-[var(--black-font)]`}
+      className={`flex relative overflow-hidden justify-center w-full h-screen leading-75 items-center ${alata.className} text-[650px]  bg-[var(--white-background)] text-[var(--black-font)]`}
       ref={ContainerRef}
     >
       <div className="top-35 left-5 absolute rotate-11">L</div>

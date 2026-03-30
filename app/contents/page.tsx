@@ -258,11 +258,11 @@ export default function TableOfContents() {
                     WHAT CAN I DO?
                   </h3>
                   <a
-                    href="#techstack"
+                    href="#tech"
                     className="block overflow-hidden cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavClick("techstack");
+                      handleNavClick("tech");
                     }}
                   >
                     <h1

@@ -13,6 +13,7 @@ import TableOfContents from "./contents/page";
 import AboutPage from "./about/page";
 import ProjectsPage from "./projects/page";
 import Footerpage from "./footer/page";
+import TechStack from "./tech/page";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ export default function App() {
       <TableOfContents />
       <AboutPage id="about" />
       <ProjectsPage id="projects" />
-
+      <TechStack id="tech" />
       <Footerpage id="footer" />
     </section>
   );

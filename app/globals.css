@@ -29,10 +29,29 @@
 }
 
 
-footer {
-  padding: 56px 50px 5px;
-}
-
 html {
   scroll-behavior: smooth;
+}
+
+.reveal-container {
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.reveal-text {
+  font-size: 200px;
+  display: flex;
+  flex-direction: row;
+}
+
+.reveal-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 100%;
+  background: #F2D492;
+  transform: translateX(-110%);
+  z-index: 2;
 }

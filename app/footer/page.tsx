@@ -20,6 +20,8 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import SplitText from "gsap/src/SplitText";
 import { useGSAP } from "@gsap/react";
+import { Contact } from "@/hooks/use-submit";
+import { useSubmit } from "@/hooks/use-submit";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -29,9 +31,14 @@ const ContactSchema = z.object({
   message: z.string().min(1, "Please input message"),
 });
 
-type Schema = z.infer<typeof ContactSchema>;
+export type Schema = z.infer<typeof ContactSchema>;
 
-export default function Footerpage({ id }: { id?: string }) {
+interface ContactProps {
+  contact?: Contact;
+  id?: string;
+}
+
+export default function Footerpage({ contact, id }: ContactProps) {
   //GSAP refs
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLHeadingElement | null>(null);
@@ -46,8 +53,15 @@ export default function Footerpage({ id }: { id?: string }) {
     },
   });
 
-  const handleSubmit = async (userData: Schema) => {
-    console.log("Wassap");
+  const { submitContact } = useSubmit(contact!);
+
+  const handleSubmit = async (values: Schema) => {
+    try {
+      await submitContact(values);
+      contactForm.reset();
+    } catch (error) {
+      throw error;
+    }
   };
 
   useGSAP(() => {
@@ -88,13 +102,19 @@ export default function Footerpage({ id }: { id?: string }) {
   }, []);
 
   return (
-    <footer className="bg-[var(--black-font)] h-150" id={id} ref={sectionRef}>
-      <div className="justify-items-center grid grid-cols-[2fr_1fr] mb-10">
+    <footer
+      className="relative lg:flex lg:items-center bg-[var(--black-font)] px-7 lg:px-16 py-10 w-full h-full min-h-screen"
+      id={id}
+    >
+      <div
+        className="gap-10 grid grid-cols-1 md:grid-cols-[2fr_1fr] mx-auto max-w-7xl h-full"
+        ref={sectionRef}
+      >
         {/* First Column */}
-        <div className="px-5">
-          <div className="flex">
+        <div>
+          <div className="flex md:flex">
             <h1
-              className={`text-[var(--white-background)] text-[10rem] ${alata.className} leading-27`}
+              className={`text-[var(--white-background)] leading-10 text-6xl lg:text-[8rem] xl:text-[10rem] ${alata.className} lg:leading-27`}
               ref={headerRef}
             >
               just <br />
@@ -106,13 +126,13 @@ export default function Footerpage({ id }: { id?: string }) {
               width={170}
               height={100}
               ref={ImageRef}
+              className="md:block max-w-30"
             />
           </div>
-
-          <div className="[&>div]:flex justify-between gap-5 [&>div]:gap-8 grid grid-cols-2 mt-15 h-50 [&>div]:text-[var(--white-background)] [&>div]:text-lg">
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:mt-10 [&>div]:text-[var(--white-background)] md:[&>div]:text-lg">
             {/* Location */}
-            <div className="contact">
-              <div className="relative flex">
+            <div className="flex gap-5">
+              <div className="relative flex shrink-0">
                 <MessageCircleMore
                   width={50}
                   height={50}
@@ -120,9 +140,9 @@ export default function Footerpage({ id }: { id?: string }) {
                   color="#F2EFEA"
                 />
                 <div className="absolute bg-[#F2D492] ml-3 rounded-full w-13 h-13"></div>
-              </div>{" "}
+              </div>
               <div className="flex flex-col">
-                <p className={`${alata.className} text-2xl`}>
+                <p className={`${alata.className} text-xl lg:text-base`}>
                   Ready to have some coffee?
                 </p>
                 <p className="text-neutral-300 text-sm leading-4">
@@ -132,8 +152,8 @@ export default function Footerpage({ id }: { id?: string }) {
               </div>
             </div>
             {/* Mail */}
-            <div className="contact">
-              <div className="relative flex">
+            <div className="flex gap-5">
+              <div className="relative flex shrink-0">
                 <Mail
                   width={50}
                   height={50}
@@ -141,9 +161,9 @@ export default function Footerpage({ id }: { id?: string }) {
                   color="#F2EFEA"
                 />
                 <div className="absolute bg-[#F2D492] ml-3 rounded-full w-13 h-13"></div>
-              </div>{" "}
+              </div>
               <div className="flex flex-col">
-                <p className={`${alata.className} text-2xl`}>
+                <p className={`${alata.className} text-xl lg:text-base`}>
                   How can I assist you?
                 </p>
                 <a
@@ -154,9 +174,10 @@ export default function Footerpage({ id }: { id?: string }) {
                 </a>
               </div>
             </div>
+
             {/* Phone */}
-            <div className="contact">
-              <div className="relative flex">
+            <div className="flex gap-5">
+              <div className="relative flex shrink-0">
                 <PhoneCall
                   width={50}
                   height={50}
@@ -164,14 +185,14 @@ export default function Footerpage({ id }: { id?: string }) {
                   color="#F2EFEA"
                 />
                 <div className="absolute bg-[#F2D492] ml-3 rounded-full w-13 h-13"></div>
-              </div>{" "}
+              </div>
               <div className="flex flex-col">
-                <p className={`${alata.className} text-2xl`}>
+                <p className={`${alata.className} text-xl lg:text-base`}>
                   Don't hesitate to reach out!
                 </p>
                 <a
                   className="text-neutral-300 text-sm leading-4 cursor-pointer"
-                  href="tel: (+63) 906 386 4236"
+                  href="tel:(+63) 906 386 4236"
                 >
                   (+63) 906 386 4236
                 </a>
@@ -182,7 +203,7 @@ export default function Footerpage({ id }: { id?: string }) {
 
         {/* Second Column */}
         <div className="">
-          <div className="z-10 bg-[#F2EFEA] hover:shadow-[0_4px_20px_#F2D492] p-10 border-[#F2D492] border-3 rounded-md w-120 h-auto transition duration-300 ease-in-out">
+          <div className="z-10 bg-[#F2EFEA] hover:shadow-[0_4px_20px_#F2D492] p-5 md:p-10 lg:p-7 border-[#F2D492] border-3 rounded-md w-full lg:w-110 xl:w-120 h-auto transition duration-300 ease-in-out">
             <h3 className={` text-xl ${alata.className} mb-5`}>
               Let's Collab!🤝
             </h3>
@@ -250,14 +271,14 @@ export default function Footerpage({ id }: { id?: string }) {
                       </FormItem>
                     )}
                   />
-                  <Button>Send Message</Button>
+                  <Button className="cursor-pointer">Send Message</Button>
                 </div>
               </form>
             </Form>
           </div>
           <div className="flex justify-end">
             {" "}
-            <p className="mt-5 text-neutral-500 text-xs">
+            <p className="mt-5 text-[10px] text-neutral-500 md:text-xs">
               Copyright © {new Date().getFullYear()} Ellaine Gonzales. All
               rights reserved.
             </p>

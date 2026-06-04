@@ -1,11 +1,8 @@
 "use client";
-import React from "react";
-import { useState } from "react";
-import gsap from "gsap";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { useGSAP } from "@gsap/react";
 
-//Page Components
+// Page Components
 import Headroom from "@/components/Headroom";
 import Loading from "./loading";
 import LandingPage from "./landing/page";
@@ -13,13 +10,12 @@ import TableOfContents from "./contents/page";
 import AboutPage from "./about/page";
 import ProjectsPage from "./projects/page";
 import Footerpage from "./footer/page";
-import TechStack from "./tech/page";
+// import TechStack from "./tech/page";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
 
-  useGSAP(() => {
-    // simulate fetching data
+  useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
@@ -27,28 +23,41 @@ export default function App() {
   if (loading) return <Loading />;
 
   return (
-    <section className="bg-[var(--white-background)]">
+    <div className="bg-[var(--white-background)] overflow-hidden">
+      <div className="h-14 sm:h-16" aria-hidden="true" />
       <Headroom>
-        <div className="bg-[var(--white-background)]/10 backdrop-blur-xs rounded-b-2xl w-full">
-          <nav className="flex justify-between items-center px-6 h-15">
-            <div className="group relative flex items-center cursor-pointer">
+        <div className="bg-[var(--white-background)]/10 backdrop-blur-sm rounded-b-2xl w-full">
+          <nav
+            className="flex justify-between items-center px-4 sm:px-6 lg:px-10 h-14 sm:h-16"
+            aria-label="Main navigation"
+          >
+            <a
+              href="#"
+              className="group flex items-center gap-2 cursor-pointer"
+              aria-label="Laine — back to top"
+            >
               <Image
                 src="/notion.png"
-                alt=""
-                width={50}
-                height={15}
-                className="group-hover:filter-[drop-shadow(0_0_2px_#000)] object-contain group-hover:scale-105 transition-all duration-300 ease-in-out"
+                alt="Laine logo"
+                width={40}
+                height={40}
+                className="group-hover:drop-shadow-[0_0_2px_#000] object-contain group-hover:scale-105 transition-all duration-300 ease-in-out"
               />
-              <h1 className="pt-1 font-teachers font-medium text-lg">Laine</h1>
-            </div>
+              <span className="pt-0.5 font-teachers font-medium text-base sm:text-lg leading-none">
+                Laine
+              </span>
+            </a>
 
-            {/* Menu Toggle Button */}
-            <div className="flex items-center gap-3 hover:shadow-2xl p-2 border border-transparent rounded-xl duration-300 ease-in cursor-pointer menu-toggle-btn">
+            <button
+              className="flex items-center gap-3 hover:shadow-2xl p-2 sm:p-2.5 border border-transparent rounded-xl duration-300 ease-in cursor-pointer menu-toggle-btn"
+              aria-label="Open navigation menu"
+              aria-expanded="false"
+            >
               <div className="relative flex flex-col justify-center items-center w-8 h-8 menu-hamburger-icon">
-                <span className="absolute bg-neutral-800 w-[15px] h-[1.25px] origin-center transition-all -translate-y-[3px] duration-[750ms] will-change-transform"></span>
-                <span className="absolute bg-neutral-800 w-[15px] h-[1.25px] origin-center transition-all translate-y-[3px] duration-[750ms] will-change-transform"></span>
+                <span className="absolute bg-neutral-800 w-[18px] h-[1.25px] origin-center transition-all -translate-y-[4px] duration-[750ms] will-change-transform" />
+                <span className="absolute bg-neutral-800 w-[18px] h-[1.25px] origin-center transition-all translate-y-[4px] duration-[750ms] will-change-transform" />
               </div>
-            </div>
+            </button>
           </nav>
         </div>
       </Headroom>
@@ -57,8 +66,8 @@ export default function App() {
       <TableOfContents />
       <AboutPage id="about" />
       <ProjectsPage id="projects" />
-      <TechStack id="tech" />
+      {/* <TechStack id="tech" /> */}
       <Footerpage id="footer" />
-    </section>
+    </div>
   );
 }
